@@ -19,10 +19,12 @@ public class Game extends Canvas implements Runnable {
 	private static int width = 500;
 	private static int height = ( width / 16 ) * 9;
 	private static int scale = 3;
+	private static String windowTitle = "Rain";
 	
 	private boolean running = false;
 	private Thread thread;
 	private JFrame frame;
+	private static Game gameInstance;
 	
 	public BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	public int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -40,18 +42,18 @@ public class Game extends Canvas implements Runnable {
 	
 	public static void main(String[] args)
 	{
-		Game game = new Game();
-		game.frame.setResizable(false);
-		game.frame.setTitle("Rain");
-		game.frame.add(game);
-		game.frame.pack();
-		game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		game.frame.setLocationRelativeTo(null); /* Centers the window */
-		game.frame.setVisible(true);
+		gameInstance = new Game();
+		gameInstance.frame.setResizable(false);
+		gameInstance.frame.setTitle( windowTitle );
+		gameInstance.frame.add(gameInstance);
+		gameInstance.frame.pack();
+		gameInstance.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gameInstance.frame.setLocationRelativeTo(null); /* Centers the window */
+		gameInstance.frame.setVisible(true);
 		
 		//JOptionPane.showMessageDialog(game.frame, "Hi");
 		
-		game.start();
+		gameInstance.start();
 	}
 	
 	public synchronized void start()
@@ -76,6 +78,11 @@ public class Game extends Canvas implements Runnable {
 		long lastTime = System.nanoTime();
 		final double ns = 1000000000 / 60.0;
 		double delta = 0;
+
+		// FPS Counter
+		long timer = System.currentTimeMillis();
+		int frames  = 0;
+		int updates = 0;
 		
 		while(running)
 		{
@@ -85,11 +92,20 @@ public class Game extends Canvas implements Runnable {
 	
 			while( delta >= 1 )
 			{	
+				++updates;
 				this.update();
 				delta--;
 			}
 			
+			++frames;
 			this.render();
+			
+			if( System.currentTimeMillis() - timer > 1000 )
+			{
+				timer = System.currentTimeMillis();
+				this.frame.setTitle(windowTitle + " (" + updates + " fps, " + frames + " frames)");
+				frames = updates = 0;
+			}
 		}
 		
 		this.stop();
