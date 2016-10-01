@@ -32,6 +32,8 @@ public class Game extends Canvas implements Runnable {
 	
 	private Screen screen;
 	
+	public int x = 0, y = 0;
+	
 	public Game()
 	{
 		screen = new Screen(width, height);
@@ -116,7 +118,7 @@ public class Game extends Canvas implements Runnable {
 	public void render()
 	{
 		screen.clear();
-		screen.render();
+		screen.render(x, 0);
 
 		BufferStrategy bs = getBufferStrategy(); // A function from Canvas class
 		
@@ -149,6 +151,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public void update()
 	{
-		
+		++y;
+		++x;
 	}
 }
