@@ -9,8 +9,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
+import com.revenant.rain.Systems.Input;
 import com.revenant.rain.Systems.Screen;
 
 public class Game extends Canvas implements Runnable {
@@ -25,6 +25,7 @@ public class Game extends Canvas implements Runnable {
 	private boolean running = false;
 	private Thread thread;
 	private JFrame frame;
+	private Input input;
 	private static Game gameInstance;
 	
 	public BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -37,8 +38,11 @@ public class Game extends Canvas implements Runnable {
 	public Game()
 	{
 		screen = new Screen(width, height);
-		
 		frame = new JFrame();
+		input = new Input();
+		
+		addKeyListener(input);
+		
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
 	}
@@ -153,5 +157,6 @@ public class Game extends Canvas implements Runnable {
 	{
 		++y;
 		++x;
+		input.update();
 	}
 }
