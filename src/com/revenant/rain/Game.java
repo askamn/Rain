@@ -16,6 +16,7 @@ import com.revenant.rain.Systems.Screen;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 	
+	/* Window Variables */
 	private static int width = 500;
 	private static int height = ( width / 16 ) * 9;
 	private static int scale = 3;
@@ -43,7 +44,7 @@ public class Game extends Canvas implements Runnable {
 	public static void main(String[] args)
 	{
 		gameInstance = new Game();
-		gameInstance.frame.setResizable(false);
+		//gameInstance.frame.setResizable(false);
 		gameInstance.frame.setTitle( windowTitle );
 		gameInstance.frame.add(gameInstance);
 		gameInstance.frame.pack();
@@ -100,10 +101,11 @@ public class Game extends Canvas implements Runnable {
 			++frames;
 			this.render();
 			
+			// Whenever 1 second has passed, reset the frames and updates
 			if( System.currentTimeMillis() - timer > 1000 )
 			{
-				timer = System.currentTimeMillis();
-				this.frame.setTitle(windowTitle + " (" + updates + " fps, " + frames + " frames)");
+				timer += 1000;
+				this.frame.setTitle(windowTitle + " (" + frames + " fps, " + updates + " ups)");
 				frames = updates = 0;
 			}
 		}
@@ -137,8 +139,8 @@ public class Game extends Canvas implements Runnable {
 			pixels[i] = screen.pixels[i];
 		} 
 		
-		gfx.drawImage(image, getWidth() / 2 - ( (getWidth() / 2)/2 ), getHeight() / 2 - ( (getHeight() / 2)/2 ), getWidth() / 2, getHeight() / 2, null);
-		
+		//gfx.drawImage(image, getWidth() / 2 - ( (getWidth() / 2)/2 ), getHeight() / 2 - ( (getHeight() / 2)/2 ), getWidth() / 2, getHeight() / 2, null);
+		gfx.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		gfx.dispose();
 		
 		// Show the available buffer (out of our 3 buffers, that's why its called TripleBuffering)

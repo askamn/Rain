@@ -1,13 +1,15 @@
 package com.revenant.rain.Systems;
 
+import java.util.Random;
+
 public class Screen {
 	public int width;
 	public int height;
 	
 	public int[] pixels;
+	public int[] tiles = new int[64 * 64];
 	
-	public int counter;
-	public int time;
+	public Random random = new Random();
 	
 	public Screen(int width, int height)
 	{
@@ -15,6 +17,11 @@ public class Screen {
 		this.height = height;
 		
 		pixels = new int[width * height];
+		
+		for( int i = 0; i < tiles.length; ++i )
+		{
+			tiles[i] = random.nextInt(0xffffff);
+		}
 	}
 	
 	public void clear()
@@ -24,18 +31,14 @@ public class Screen {
 	
 	public void render()
 	{
-		counter++;
-		if( counter % 2 == 0 ) time++;
+		int tileIndex;
 		
 		for( int y = 0; y < height; ++y ) 
 		{
 			for( int x = 0; x < width; ++x )
 			{
-				pixels[x + y * width] = 0x502864;//0xff00ff;
-				/*pixels[time + time * width] = 0x502864;
-				pixels[time+1 + time * width] = 0x502864;
-				pixels[time + (time+1) * width] = 0x502864;
-				pixels[time+1 + (time+1)* width] = 0x502864;*/
+				tileIndex = (x >> 4) + ( (y >> 4) << 6 );
+				pixels[x + y * width] = tiles[tileIndex];//0xff00ff;
 			}
 		}
 	}
