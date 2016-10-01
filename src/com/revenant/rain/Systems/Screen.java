@@ -6,7 +6,7 @@ public class Screen {
 	public int width;
 	public int height;
 	
-	public static final int MAP_SIZE = 64;
+	public static final int MAP_SIZE = 16;
 	public static final int MAP_SIZE_MASK = MAP_SIZE - 1;
 	public static final int TILE_SIZE = 16;
 	public static final int TILE_SIZE_MASK = 4;
@@ -23,18 +23,31 @@ public class Screen {
 		
 		pixels = new int[width * height];
 		
-		for( int i = 0; i < MAP_SIZE; ++i )
+		for( int i = 0; i < MAP_SIZE*MAP_SIZE; ++i )
 		{
 			tiles[i] = random.nextInt(0xffffff);
 		}
 		
-		for( int j = 1; j < MAP_SIZE; ++j )
+		/*for( int j = 1; j < MAP_SIZE >> 2; ++j )
 		{
 			for( int i = 0; i < MAP_SIZE; ++i )
 			{
 				tiles[ i + j * MAP_SIZE ] = tiles[i];
 			}
 		}
+
+		for( int i = 0; i < MAP_SIZE; ++i )
+		{
+			tiles[i + (MAP_SIZE >> 2) * MAP_SIZE] = random.nextInt(0xffffff);
+		}
+		
+		for( int j = (MAP_SIZE >> 2) + 1; j < MAP_SIZE; ++j )
+		{
+			for( int i = 0; i < MAP_SIZE; ++i )
+			{
+				tiles[ i + j * MAP_SIZE ] = tiles[i + (MAP_SIZE >> 2) * MAP_SIZE];
+			}
+		}*/
 	}
 	
 	public void clear()

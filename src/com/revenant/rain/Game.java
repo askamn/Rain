@@ -122,7 +122,7 @@ public class Game extends Canvas implements Runnable {
 	public void render()
 	{
 		screen.clear();
-		screen.render(x, 0);
+		screen.render(x, y);
 
 		BufferStrategy bs = getBufferStrategy(); // A function from Canvas class
 		
@@ -145,8 +145,8 @@ public class Game extends Canvas implements Runnable {
 			pixels[i] = screen.pixels[i];
 		} 
 		
-		//gfx.drawImage(image, getWidth() / 2 - ( (getWidth() / 2)/2 ), getHeight() / 2 - ( (getHeight() / 2)/2 ), getWidth() / 2, getHeight() / 2, null);
-		gfx.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		gfx.drawImage(image, getWidth() / 2 - ( (getWidth() / 2)/2 ), getHeight() / 2 - ( (getHeight() / 2)/2 ), getWidth() / 2, getHeight() / 2, null);
+		//gfx.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		gfx.dispose();
 		
 		// Show the available buffer (out of our 3 buffers, that's why its called TripleBuffering)
@@ -155,8 +155,11 @@ public class Game extends Canvas implements Runnable {
 	
 	public void update()
 	{
-		++y;
-		++x;
 		input.update();
+		
+		if(input.up) y--;
+		if(input.down) y++;
+		if(input.left) x--;
+		if(input.right) x++;
 	}
 }
